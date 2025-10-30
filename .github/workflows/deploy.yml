@@ -40,7 +40,6 @@ jobs:
             uv run marimo export html-wasm concrete-model-building.py \
                 -o site \
                 --mode run \
-            touch site/.nojekyll
 
 
       - name: Upload Pages artifact

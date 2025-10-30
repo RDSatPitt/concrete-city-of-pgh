@@ -38,9 +38,9 @@ jobs:
         run: |
             mkdir -p site
             uv run marimo export html-wasm concrete-model-building.py \
-            -o site \
-            --mode run \
-            --include data
+                -o site \
+                --mode run \
+                --include data
             touch site/.nojekyll
 
 

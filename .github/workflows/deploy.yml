@@ -36,15 +36,18 @@ jobs:
 
       - name: Export Marimo notebook to WASM HTML
         run: |
-          mkdir -p site
-          uv run marimo export html-wasm concrete-model-building.py -o site --mode run
-          # Prevent GitHub Pages from ignoring folders that start with '_'
-          touch site/.nojekyll
+            mkdir -p site
+            uv run marimo export html-wasm concrete-model-building.py \
+            -o site \
+            --mode run \
+            --include data
+            touch site/.nojekyll
+
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+            path: site
 
   deploy:
     name: Deploy to GitHub Pages

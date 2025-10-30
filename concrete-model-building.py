@@ -74,11 +74,9 @@ def _(mo, input_key):
 
 @app.cell(hide_code=True)
 def _(mo, pd):
-    # create data path
-    data_path = mo.notebook_location() / "data" / "all_extracted_data.csv"
+    # create data path and load data
+    pgh_revenue_data = mo.data_file("data/all_extracted_data.csv").read_csv()
 
-    # load the data
-    pgh_revenue_data = pd.read_csv(data_path)
     # create a new column that is the year and quarter combined
     pgh_revenue_data['Year-Quarter'] = pgh_revenue_data['year'].astype(str) + '-' + pgh_revenue_data['quarter']
     return (pgh_revenue_data,)

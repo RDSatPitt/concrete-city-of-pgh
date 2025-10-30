@@ -32,7 +32,7 @@ jobs:
 
       - name: Install project dependencies using uv
         run: |
-          uv sync --frozen
+          uv sync
 
       - name: Export Marimo notebook to WASM HTML
         run: |

@@ -24,18 +24,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install uv
-        run: pip install uv
+      - name: Install uv and dependencies
+        run: |
+          pip install uv
+          uv sync
 
-      - name: Install dependencies
-        run: uv sync
-
-      - name: Export Marimo notebook to WASM HTML
+      - name: Export Marimo notebook to HTML (app mode)
         run: |
           mkdir -p site
-          uv run marimo export html-wasm concrete-model-building.py \
+          uv run marimo export html concrete-model-building.py \
             -o site \
-            --mode run
+            --mode run \
+            --no-show-code
           touch site/.nojekyll
 
       - name: Upload artifact

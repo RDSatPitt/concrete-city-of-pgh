@@ -75,8 +75,7 @@ def _(mo, input_key):
 @app.cell(hide_code=True)
 def _(mo, pd):
     # create data path
-    data_path = "https://raw.githubusercontent.com/RDSatPitt/concrete-city-of-pgh/refs/heads/main/data/all_extracted_data.csv"
-
+    data_path = mo.notebook_location() / "public" / "data" / "all_extracted_data.csv"
     # load the data
     pgh_revenue_data = pd.read_csv(data_path)
     # create a new column that is the year and quarter combined

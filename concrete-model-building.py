@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.17.8"
+__generated_with = "0.18.0"
 app = marimo.App(width="medium", app_title="ConCReTE Model Building")
 
 
@@ -13,6 +13,7 @@ def _():
 @app.cell
 async def _(micropip):
     await micropip.install("groq")
+    await micropip.install("pyarrow")
     import groq
     return
 
@@ -20,10 +21,11 @@ async def _(micropip):
 @app.cell
 def _():
     import marimo as mo
+    import polars as pl
     import pandas as pd
     from sklearn.linear_model import LinearRegression
     from sklearn.metrics import mean_squared_error, root_mean_squared_error
-    return LinearRegression, mo, pd, root_mean_squared_error
+    return LinearRegression, mo, pl, root_mean_squared_error
 
 
 @app.cell
@@ -103,13 +105,19 @@ def _(input_key, mo, set_intro_dialog_loaded):
 
 
 @app.cell(hide_code=True)
-def _(pd):
+def _(mo, pl):
     # create data path
     data_host = "https://rds-concrete.com/data"
 
-    data_path = f"{data_host}/all_extracted_data.csv"
+    # data_path = f"{data_host}/all_extracted_data.csv"
+    data_path = str(mo.notebook_location() / "public"/ "data" / "all_extracted_data.csv")
+    polars_data = pl.read_csv(data_path)
+
     # load the data
-    pgh_revenue_data = pd.read_csv(data_path)
+    # pgh_revenue_data = pl.read_csv(data_path)
+
+    pgh_revenue_data = polars_data.to_pandas()
+
     # create a new column that is the year and quarter combined
     pgh_revenue_data['Year-Quarter'] = pgh_revenue_data['year'].astype(str) + '-' + pgh_revenue_data['quarter']
     return (pgh_revenue_data,)
